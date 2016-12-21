@@ -33,7 +33,7 @@ simplify specification of guarantees.
 \subsection{Approach}
 
 The main idea of the algorithm is to use over- and underapproximations to
-create a set of states, say $F(s)$ in which the system can safely use the
+create a set of states, say $F(s)$, in which the system can safely use the
 transition relation without violating the contract. Due to AE-VAL's machinery,
 we are able to finally extract a Skolem Function $S_k$ that describes an
 implementation. The algorithm is split into two different phases. The first is
@@ -47,13 +47,13 @@ this case, we proceed with extracting a Skolem function that describes a
 transition to a new ``good'' state.
 
 Alternatively, AE-VAL will return with a ``non-valid'' answer. In addition to
-this, a subset, named $Q(s,i)$ is also generated, for which the formula
+this, a subset, named $Q(s,i)$, is also generated, for which the formula
 $\forall s,i. Q(s,i) \Rightarrow \exists s'. G_{T}(s,i,s')$ is valid.
 We can use this subset to refine $F(s)$ in the following way:
 
 \begin{itemize}
   \item Define $R(s) = true$. Examine the validity of $\forall s. R(s)
-  \Rightarrow \exists i. \lnot Q(s,i)$. If the formula is valid, the
+  \Rightarrow \exists i. \lnot Q(s,i)$ is valid. If the formula is valid, the
   contract cannot be realizable, as for every state $s$, there are inputs for
   which the assumptions are violated. On the other hand, if AE-VAL returns ``non-valid'' we receive
   a valid subset of $R(s)$, namely $W(s)$.
@@ -62,15 +62,15 @@ We can use this subset to refine $F(s)$ in the following way:
   which the contract is violated, and therefore will have to be blocked from the
   resulting set that describes the system's ``good'' states. Thus, we refine
   $F(s) \equiv F(s) \land \lnot W(s)$.
-  \item We plug the refined $F(s)$ in the original formula, and reiterate the
+  \item We plug the refined $F(s)$ in the original formula and reiterate the
   process. Eventually, a point is reached where we get a valid answer and
   extract a Skolem relation that precisely describes $F(s) \land A(s,i) \land
-  G_I{s}$.
+  G_I(s)$.
 \end{itemize}
 
 The second phase of the algorithm is identical to the first, but does not have
-the requirement that a state satisfies $G_I{s}$. Thus, we begin by checking the
-validity of $\forall s,i. F(s) \land A(s,i) \Rightarrow \exists s'
+the requirement that a state satisfies $G_I(s)$. Thus, we begin by checking the
+validity of $\forall s,i. F(s) \land A(s,i) \Rightarrow \exists s'.
 G_{T}(s,i,s') \land F(s')$. The process to refine $F(s)$ is identical to the
 previous phase. Again, we eventually either decide that the contract is
 unrealizable, or are able to extract a Skolem function that describes a
@@ -83,7 +83,7 @@ A possible way to optimize the algorithm's convergence described above, would be
 to replace $F(s) = true$ with a refined set $F'(s)$ resulting from the recursive
 blocking of bad states, starting from the formula $\forall s,i. A(s,i) \land G_I(s) \Rightarrow
 \exists s'. G_T(s,i,s')$. Then, the algorithm would execute the first phase by
-checking the validity of $\forall s,i. F'(s) \Rightarrow exists s'.
+checking the validity of $\forall s,i. F'(s) \Rightarrow \exists s'.
 G_{T}(s,i,s') \land F'(s')$. A similar approach can be also applied to the
 second phase.
 \end{document}
